@@ -43,7 +43,7 @@ jobs:
       - name: Validate CSS files
         run: |
           if ls *.css 1> /dev/null 2>&1; then
-            find . -name "*.css" -print0 | xargs -0 csslint || true
+            find . -name "*.css" -print0 | xargs -0 csslint
           else
             echo "No CSS files found, skipping CSS validation."
           fi
