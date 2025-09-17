@@ -18,8 +18,14 @@ jobs:
         with:
           root: .
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install csslint
+        run: npm install -g csslint
+
       - name: Validate CSS files
-        uses: csslint/csslint@v1.0.5
         run: |
-          npm install -g csslint
           find . -name "*.css" -print0 | xargs -0 csslint || true
