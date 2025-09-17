@@ -18,12 +18,19 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install Java (for html5validator)
+        run: sudo apt-get update && sudo apt-get install -y default-jre
+
       - name: Install html5validator
         run: pip install html5validator
 
       - name: Validate HTML files
         run: |
-          find . -name "*.html" -print0 | xargs -0 -I{} html5validator --root . --files {}
+          if ls *.html 1> /dev/null 2>&1; then
+            html5validator --root .
+          else
+            echo "No HTML files found, skipping HTML validation."
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -35,4 +42,8 @@ jobs:
 
       - name: Validate CSS files
         run: |
-          find . -name "*.css" -print0 | xargs -0 csslint || true
+          if ls *.css 1> /dev/null 2>&1; then
+            find . -name "*.css" -print0 | xargs -0 csslint || true
+          else
+            echo "No CSS files found, skipping CSS validation."
+          fi
