@@ -1,0 +1,51 @@
+name: Validate HTML and CSS
+
+on:
+  push:
+    branches:
+      - '**'    # Kiểm tra trên mọi branch
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  html-css-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Java (for html5validator)
+        run: sudo apt-get update && sudo apt-get install -y default-jre
+
+      - name: Install html5validator
+        run: pip install html5validator
+
+      - name: Validate HTML files
+        run: |
+          if find . -name "*.html" | grep -q .; then
+            html5validator --root .
+          else
+            echo "No HTML files found, skipping HTML validation."
+          fi
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install csslint
+        run: npm install -g csslint
+
+      - name: Validate CSS files
+        run: |
+          if find . -name "*.css" | grep -q .; then
+            find . -name "*.css" -print0 | xargs -0 csslint
+          else
+            echo "No CSS files found, skipping CSS validation."
+          fi
