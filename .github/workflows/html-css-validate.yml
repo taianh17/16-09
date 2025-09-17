@@ -13,10 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Validate HTML files
-        uses: Cyb3r-Jak3/html5validator-action@v0.4.0
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          root: .
+          python-version: '3.x'
+
+      - name: Install html5validator
+        run: pip install html5validator
+
+      - name: Validate HTML files
+        run: |
+          find . -name "*.html" -print0 | xargs -0 -I{} html5validator --root . --files {}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
