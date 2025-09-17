@@ -8,17 +8,19 @@ on:
 
 jobs:
   html-css-validation:
+    name: Validate HTML and CSS
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Install Java (for html5validator)
+      - name: Install Java (required by html5validator)
         run: sudo apt-get update && sudo apt-get install -y default-jre
 
       - name: Install html5validator
@@ -26,13 +28,14 @@ jobs:
 
       - name: Validate HTML files
         run: |
-          if ls *.html 1> /dev/null 2>&1; then
+          echo "Validating HTML files..."
+          if find . -name "*.html" | grep -q .; then
             html5validator --root .
           else
-            echo "No HTML files found, skipping HTML validation."
+            echo "✅ No HTML files found. Skipping HTML validation."
           fi
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -42,8 +45,9 @@ jobs:
 
       - name: Validate CSS files
         run: |
-          if ls *.css 1> /dev/null 2>&1; then
-            find . -name "*.css" -print0 | xargs -0 csslint
+          echo "Validating CSS files..."
+          if find . -name "*.css" | grep -q .; then
+            find . -name "*.css" -print0 | xargs -0 csslint || exit 1
           else
-            echo "No CSS files found, skipping CSS validation."
+            echo "✅ No CSS files found. Skipping CSS validation."
           fi
