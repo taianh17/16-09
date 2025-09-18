@@ -35,7 +35,6 @@ jobs:
       - name: Clean up temporary files
         run: rm .stylelintrc.json
       - name: Archive node_modules
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: node_modules
-          
