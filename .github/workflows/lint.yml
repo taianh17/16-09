@@ -11,13 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+<<<<<<< HEAD
       - name: Checkout code & setup Node.js
         uses: actions/checkout@v4/setup-node@v4
 
+=======
+
+      - name: Checkout code & setup Node.js
+
+        uses: actions/checkout@v4/setup-node@v4
+>>>>>>> 6085b68bd89fce0d2ebace964dfe5036d53fb7e3
         with:
           node-version: "20"
       - name: Install dependencies
         run: npm ci
+
+      - name: Create temporary Stylelint config
+        run: |
+          echo '{
+            "extends": "stylelint-config-standard"
+          }' > .stylelintrc.json
+
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
       - name: Run Stylelint with auto-fix
