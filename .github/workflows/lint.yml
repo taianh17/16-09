@@ -31,5 +31,5 @@ jobs:
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
 
-      - name: Run Stylelint
-        run: npx stylelint "**/*.css"
+    - name: Run Stylelint with auto-fix
+  run: npx stylelint "**/*.css" --fix
