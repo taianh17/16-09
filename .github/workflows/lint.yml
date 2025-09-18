@@ -30,6 +30,19 @@ jobs:
 
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
-
-    - name: Run Stylelint with auto-fix
-  run: npx stylelint "**/*.css" --fix
+      - name: Run Stylelint
+        run: npx --no-install stylelint "**/*.css"  
+      - name: Clean up
+        run: rm .stylelintrc.json
+      - name: Remove node_modules
+        run: rm -rf node_modules package-lock.json
+      - name: Final cleanup
+        run: npm cache clean --force
+      - name: Verify cleanup
+        run: |
+          if [ -d "node_modules" ] || [ -f "package-lock.json" ]; then
+            echo "Cleanup failed: node_modules or package-lock.json still exist."
+            exit 1
+          else
+            echo "Cleanup successful: node_modules and package-lock.json have been removed."
+          fi
