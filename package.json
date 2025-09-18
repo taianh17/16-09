@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/taianh17/16-09/issues"
   },
-  "homepage": "https://github.com/taianh17/16-09#readme"
+  "homepage": "https://github.com/taianh17/16-09#readme",
+  "devDependencies": {
+    "stylelint": "^16.24.0",
+    "stylelint-config-standard": "^39.0.0"
+  }
 }
