@@ -7,12 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
 
     steps:
       - name: Checkout repository
@@ -21,14 +17,13 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          node-version: 20
 
-      - name: Install dependencies
-        run: npm install
+      - name: Install linters
+        run: npm install -g htmlhint stylelint stylelint-config-standard
 
-      - name: Run HTML Lint
-        run: npx htmlhint "**/*.html"
+      - name: Run HTMLHint
+        run: htmlhint "**/*.html"
 
-      - name: Run CSS Lint
-        run: npx stylelint "**/*.css"
+      - name: Run Stylelint
+        run: stylelint "**/*.css"
