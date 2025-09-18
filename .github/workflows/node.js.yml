@@ -1,4 +1,4 @@
-name: CI - Test HTML & CSS
+name: Lint HTML & CSS
 
 on:
   push:
@@ -11,19 +11,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
 
       - name: Install linters
-        run: npm install -g htmlhint stylelint stylelint-config-standard
+        run: |
+          npm init -y
+          npm install --save-dev stylelint stylelint-config-standard htmlhint
+
+      - name: Create temporary Stylelint config
+        run: |
+          echo '{
+            "extends": "stylelint-config-standard"
+          }' > .stylelintrc.json
 
       - name: Run HTMLHint
-        run: htmlhint "**/*.html"
+        run: npx htmlhint "**/*.html"
 
       - name: Run Stylelint
-        run: stylelint "**/*.css"
+        run: npx stylelint "**/*.css"
