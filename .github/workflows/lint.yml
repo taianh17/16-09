@@ -22,11 +22,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create temporary Stylelint config
-        run: |
-          echo '{
-            "extends": "stylelint-config-standard"
-          }' > .stylelintrc.json
+      
 
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
