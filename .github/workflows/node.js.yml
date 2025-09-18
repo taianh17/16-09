@@ -21,10 +21,11 @@ jobs:
 
       - name: Install linters
         run: |
-          npm install -g htmlhint stylelint stylelint-config-standard
+          npm init -y
+          npm install --save-dev stylelint stylelint-config-standard htmlhint
 
       - name: Run HTMLHint
-        run: htmlhint "**/*.html"
+        run: npx htmlhint "**/*.html"
 
       - name: Run Stylelint
-        run: stylelint "**/*.css"
+        run: npx stylelint "**/*.css"
