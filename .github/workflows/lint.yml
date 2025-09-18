@@ -30,11 +30,5 @@ jobs:
 
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
-      - name: Run Stylelint (check only)
-        run: npx stylelint "**/*.css" || true
-      - name: Clean up temporary files
-        run: rm .stylelintrc.json
-      - name: Archive node_modules
-        uses: actions/upload-artifact@v4
-        with:
-          name: node_modules
+      - name: Run Stylelint with auto-fix
+        run: npx stylelint "**/*.css" --fix
