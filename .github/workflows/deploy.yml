@@ -1,9 +1,9 @@
-name: Deploy to Vercel
+name: Deploy to Vercel Production
 
 on:
   push:
     branches:
-      - main   # chỉ deploy khi có code mới ở nhánh main
+      - main
 
 jobs:
   deploy:
@@ -21,5 +21,5 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
 
-      - name: Deploy to Vercel Production
-        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_ORG_ID }} --confirm --project ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy to Vercel
+        run: vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --scope ${{ secrets.VERCEL_ORG_ID }} --confirm
