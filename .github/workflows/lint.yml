@@ -26,6 +26,6 @@ jobs:
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
 
-      # Validate & auto-fix CSS
+      # Validate & auto-fix CSS (không cần file .stylelintrc.json)
       - name: Run Stylelint with auto-fix
-        run: npx stylelint "**/*.css" --fix --config node_modules/stylelint-config-standard
+        run: npx stylelint "**/*.css" --fix --config node_modules/stylelint-config-standard/index.js --config-basedir .
