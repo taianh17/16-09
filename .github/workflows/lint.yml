@@ -1,29 +1,31 @@
-name: Lint HTML & CSS
+name: CI - Validate HTML & CSS
 
 on:
   push:
-    branches: ["main"]
+    branches: [ "main" ]
   pull_request:
-    branches: ["main"]
+    branches: [ "main" ]
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: 18
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Install lint tools
+        run: npm install --save-dev stylelint stylelint-config-standard htmlhint
 
+      # Validate HTML
       - name: Run HTMLHint
         run: npx htmlhint "**/*.html"
 
+      # Validate & auto-fix CSS
       - name: Run Stylelint with auto-fix
-        run: npx stylelint "**/*.css" --fix
+        run: npx stylelint "**/*.css" --fix --config node_modules/stylelint-config-standard
